@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar';
-import { Button } from '@mui/material';
 import { Chart as ChartJS, Tooltip, Legend, LinearScale } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import Navbar from './Navbar';
+import { Button } from '@mui/material';
 import { CategoryScale, BarElement } from 'chart.js';
-import { useRouter } from 'next/router';
-import ReactApexChart from 'react-apexcharts';
+import { useRouter } from 'next/router'; 
 
 ChartJS.register(
   BarElement,
@@ -25,7 +24,7 @@ const Home = () => {
     todosPerUser: [],
   });
 
-  const router = useRouter();
+  const router = useRouter(); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +39,8 @@ const Home = () => {
         const users = usersResponse.data;
         const todos = todosResponse.data;
 
-        const todosPerUser = users.map((user) => {
-          const userTodos = todos.filter((todo) => todo.userId === user.id);
+        const todosPerUser = users.map(user => {
+          const userTodos = todos.filter(todo => todo.userId === user.id);
           return { userId: user.id, name: user.name, todos: userTodos.length, todosData: userTodos };
         });
 
@@ -94,50 +93,22 @@ const Home = () => {
       },
     },
   };
+  
 
-  // ApexCharts configuration for todos per user
-  const apexChartData = {
-    options: {
-      xaxis: {
-        categories: data.todosPerUser.map((user) => user.name),
-        labels: {
-          style: {
-            colors: 'white',
-          },
-        },
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: 'white',
-          },
-        },
-      },
-    },
-    series: [
-      {
-        name: 'Todos',
-        data: data.todosPerUser.map((user) => user.todos),
-      },
-    ],
-  };
-
+  
   const navigateToTotalTodosPage = () => {
-    router.push('/TotalTodosPage');
+    router.push('/TotalTodosPage'); 
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'black' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'black' }}> 
       <Navbar />
-      <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
-        <div style={{ width: '40%' }}>
+      <div style={{ flex: 1, marginBottom: '20px' }}>
+        <div style={{ width: '75%', margin: 'auto' }}>
           <Bar data={chartData} options={chartOptions} />
         </div>
-        <div style={{ width: '40%' }}>
-          <ReactApexChart type="bar" height={350} {...apexChartData} />
-        </div>
       </div>
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
         <Button onClick={navigateToTotalTodosPage} variant="contained" color="primary" sx={{ minWidth: '200px' }}>
           View Total Todos
         </Button>
