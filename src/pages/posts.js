@@ -66,9 +66,9 @@ const Posts = () => {
   };
 
   return (
-    <div style={{ backgroundColor: 'black', minHeight: '100vh', padding: '20px' }}>
+    <div style={{ backgroundColor: 'grey', minHeight: '100vh', padding: '0px' }}>
       <Navbar />
-      {loading && <CircularProgress style={{ margin: '20px' }} />}
+      {loading && <CircularProgress style={{ margin: '10px' }} />}
       {error && <Typography variant="h6" color="error" style={{ color: 'white' }}>{error}</Typography>}
       {!loading && !error && (
         <Grid container spacing={2}>

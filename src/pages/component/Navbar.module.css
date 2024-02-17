@@ -11,10 +11,8 @@
 /* Logo (Text) Style */
 .logoText {
     font-size: 32px;
-    font-family: 'Your Thick Cursive Font', cursive; /* Replace with your desired thick cursive font */
-    background: linear-gradient(45deg, #ff8a00, #e52e71);
-    -webkit-background-clip: text;
-    color: transparent;
+    font-family: 'Your Thick Cursive Font', cursive;
+    color: #fff; /* Set the text color */
     transition: transform 0.3s ease;
 }
 
@@ -32,7 +30,7 @@
 
 /* Navigation Item Style */
 .navItem {
-    margin: 0 10px;
+    margin: 0 15px;
     transition: transform 0.3s ease;
 }
 
@@ -44,19 +42,14 @@
 .navItem a {
     color: white;
     text-decoration: none;
-    display: flex;
-    align-items: center;
     font-weight: bold;
     font-size: 24px;
     text-transform: uppercase;
     transition: color 0.3s ease;
-    background: linear-gradient(45deg, #ff8a00, #e52e71);
-    -webkit-background-clip: text;
-    color: transparent;
 }
 
 /* Hover and Active States */
 .navItem a:hover,
 .navItem.active a {
-    color: rgb(177, 73, 21);
+    color: rgb(177, 73, 21); /* Set the highlight color */
 }

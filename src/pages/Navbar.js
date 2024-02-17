@@ -1,3 +1,4 @@
+// Navbar.js
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -18,24 +19,16 @@ const Navbar = () => {
       </div>
       <ul className={styles.navList}>
         <li className={`${styles.navItem} ${currentUrl === '/' ? styles.active : ''}`}>
-          <Link href="/">
-            Home
-          </Link>
+          <Link href="/">Home</Link>
         </li>
         <li className={`${styles.navItem} ${currentUrl === '/posts' ? styles.active : ''}`}>
-          <Link href="/posts">
-            Posts
-          </Link>
+          <Link href="/posts">Posts</Link>
         </li>
         <li className={`${styles.navItem} ${currentUrl === '/comments' ? styles.active : ''}`}>
-          <Link href="/comments">
-            Comments
-          </Link>
+          <Link href="/comments">Comments</Link>
         </li>
         <li className={`${styles.navItem} ${currentUrl === '/users' ? styles.active : ''}`}>
-          <Link href="/users">
-            Users
-          </Link>
+          <Link href="/users">Users</Link>
         </li>
       </ul>
     </nav>

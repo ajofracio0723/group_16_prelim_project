@@ -20,43 +20,30 @@ const Comments = () => {
   }, []);
 
   return (
-    <div style={{ backgroundColor: 'black', color: 'white', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <div>
       <Navbar />
-      <h1 style={{ color: '#83B8FF' }}>ALL COMMENTS</h1>
-      <div style={{ width: '60%' }}>
-        <Paper style={{ backgroundColor: 'black', color: 'white' }}>
+      <h1>ALL COMMENTS</h1>
+      <div>
+        <Paper>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell style={{ color: '#C6CDFF', fontSize: '1.2rem', textAlign: 'center' }}>#</TableCell>
+                <TableCell>#</TableCell>
+                <TableCell>Comment</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {comments.map((comment, index) => (
                 <TableRow key={comment.id}>
-                  <TableCell style={{ color: '#C6CDFF', fontSize: '1rem', textAlign: 'center' }}>{index + 1}</TableCell>
-                  <TableCell style={{ color: 'white', fontSize: '1rem', textAlign: 'center' }}>{comment.body}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{comment.body}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </Paper>
       </div>
-      <Button
-        variant="outlined"
-        style={{
-          color: 'white',
-          borderColor: '#0F6BAE',
-          marginTop: '20px',
-          transition: 'background-color 0.3s',
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = '#0F6BAE'; 
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = 'transparent';
-        }}
-      >
+      <Button variant="outlined" style={{ marginTop: '20px' }}>
         View Comments
       </Button>
     </div>
