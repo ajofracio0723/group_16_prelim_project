@@ -1,0 +1,62 @@
+/* Navbar Style */
+.navbar {
+    padding: 20px;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo (Text) Style */
+.logoText {
+    font-size: 32px;
+    font-family: 'Your Thick Cursive Font', cursive; /* Replace with your desired thick cursive font */
+    background: linear-gradient(45deg, #ff8a00, #e52e71);
+    -webkit-background-clip: text;
+    color: transparent;
+    transition: transform 0.3s ease;
+}
+
+.logoText:hover {
+    transform: scale(1.1);
+}
+
+/* Navigation List Style */
+.navList {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Item Style */
+.navItem {
+    margin: 0 10px;
+    transition: transform 0.3s ease;
+}
+
+.navItem:hover {
+    transform: scale(1.1);
+}
+
+/* Anchor Tag (Link) Style */
+.navItem a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 24px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    background: linear-gradient(45deg, #ff8a00, #e52e71);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Hover and Active States */
+.navItem a:hover,
+.navItem.active a {
+    color: rgb(177, 73, 21);
+}
