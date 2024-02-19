@@ -3,9 +3,12 @@ import axios from 'axios';
 import { Chart as ChartJS, Tooltip, Legend, LinearScale } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import Navbar from './Navbar';
+import Toggle from 'react-toggle';
 import { Button } from '@mui/material';
 import { CategoryScale, BarElement } from 'chart.js';
 import { useRouter } from 'next/router';
+
+import 'react-toggle/style.css';
 
 ChartJS.register(
   BarElement,
@@ -24,6 +27,7 @@ const Home = () => {
     todosPerUser: [],
   });
 
+  const [darkMode, setDarkMode] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -59,6 +63,15 @@ const Home = () => {
     fetchData();
   }, []);
 
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('darkMode', newDarkMode);
+    }
+  };
+
   const chartData = {
     labels: ['Users', 'Posts', 'Comments', 'Todos'],
     datasets: [
@@ -77,13 +90,13 @@ const Home = () => {
       x: {
         type: 'category',
         ticks: {
-          color: 'white',
+          color: darkMode ? 'white' : 'black',
         },
       },
       y: {
         beginAtZero: true,
         ticks: {
-          color: 'white',
+          color: darkMode ? 'white' : 'black',
         },
       },
     },
@@ -91,7 +104,7 @@ const Home = () => {
       legend: {
         display: true,
         labels: {
-          color: 'white',
+          color: darkMode ? 'white' : 'black',
         },
       },
     },
@@ -115,13 +128,13 @@ const Home = () => {
       x: {
         type: 'category',
         ticks: {
-          color: 'white',
+          color: darkMode ? 'white' : 'black',
         },
       },
       y: {
         beginAtZero: true,
         ticks: {
-          color: 'white',
+          color: darkMode ? 'white' : 'black',
         },
       },
     },
@@ -132,8 +145,11 @@ const Home = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'black' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: darkMode ? 'black' : 'white' }}>
       <Navbar />
+      <h1 style={{ textAlign: 'Left', color: darkMode ? 'white' : 'black', marginTop: '20px' }}>
+        Dashboard
+      </h1>
       <div style={{ flex: 1, marginBottom: '20px', display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ width: '48%', marginRight: '2%' }}>
           <Bar data={chartData} options={chartOptions} />
@@ -147,6 +163,11 @@ const Home = () => {
           View Total Todos
         </Button>
       </div>
+      <label>
+        <Toggle checked={darkMode} onChange={toggleDarkMode} />
+        {' '}
+        Dark Mode
+      </label>
     </div>
   );
 };

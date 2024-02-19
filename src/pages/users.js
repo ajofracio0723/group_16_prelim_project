@@ -38,17 +38,17 @@ const Users = () => {
   };
 
   return (
-    <div style={{ backgroundColor: 'black', color: 'white', minHeight: '100vh', padding: '20px' }}>
+    <div>
       <Navbar />
-      <Container>
+      <Container style={{ marginTop: '20px' }}>
         <Row>
           {users.map((user) => (
             <Col key={user.id} xs={12} sm={6} md={4} style={{ marginBottom: '20px' }}>
               <Card
                 style={{
                   border: `2px solid #0F6BAE`,
-                  backgroundColor: 'black',
-                  color: 'white',
+                  backgroundColor: 'white',
+                  color: 'black',
                   borderRadius: '10px',
                   padding: '10px',
                   textAlign: 'center',
@@ -61,28 +61,28 @@ const Users = () => {
                   alt={user.name}
                   roundedCircle
                   fluid
-                  style={{ width: '100px', height: '100px', margin: '0 auto' }} 
+                  style={{ width: '100px', height: '100px', margin: '0 auto' }}
                 />
                 <Card.Body>
-                  <Card.Title style={{ color: '#83B8FF', marginBottom: '10px' }}>{user.name}</Card.Title>
-                  <Card.Text style={{ color: '#C6CDFF', marginBottom: '10px' }}>{user.email}</Card.Text>
-                  <Card.Text style={{ color: '#C6CDFF', marginBottom: '20px' }}>{user.username}</Card.Text>
+                  <Card.Title style={{ color: '#0F6BAE', marginBottom: '10px' }}>{user.name}</Card.Title>
+                  <Card.Text style={{ color: '#333', marginBottom: '10px' }}>{user.email}</Card.Text>
+                  <Card.Text style={{ color: '#333', marginBottom: '20px' }}>{user.username}</Card.Text>
                   <Button
                     onClick={() => fetchUserTodos(user.id)}
-                    variant="outline-light"
+                    variant="outline-dark"
                     style={{
                       border: '2px solid #0F6BAE',
                       transition: 'background-color 0.3s',
-                      color: 'white',
+                      color: 'black',
                     }}
                     className="todos-button"
                     onMouseEnter={(e) => {
                       e.target.style.backgroundColor = '#0F6BAE';
-                      e.target.style.color = 'white'; 
+                      e.target.style.color = 'white';
                     }}
                     onMouseLeave={(e) => {
                       e.target.style.backgroundColor = 'transparent';
-                      e.target.style.color = 'white';
+                      e.target.style.color = 'black';
                     }}
                   >
                     View Todos
@@ -98,7 +98,7 @@ const Users = () => {
         <Modal.Header closeButton>
           <Modal.Title style={{ color: '#0F6BAE' }}>Todos</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ backgroundColor: 'black', color: 'white' }}>
+        <Modal.Body style={{ backgroundColor: 'white', color: 'black' }}>
           <ul>
             {userTodos.map((todo) => (
               <li key={todo.id}>{todo.title}</li>

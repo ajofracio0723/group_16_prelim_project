@@ -1,9 +1,12 @@
-// Navbar.js
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { AppBar, Toolbar, Typography, Button, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
+import PostIcon from '@mui/icons-material/Assignment';
+import CommentIcon from '@mui/icons-material/Comment';
+import UsersIcon from '@mui/icons-material/People';
 import styles from './component/Navbar.module.css';
 
 const Navbar = () => {
@@ -25,15 +28,27 @@ const Navbar = () => {
   const drawerList = (
     <List>
       <ListItem button component={Link} href="/" onClick={toggleDrawer(false)} className={`${currentUrl === '/' ? styles.active : ''}`}>
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
         <ListItemText primary="Home" />
       </ListItem>
       <ListItem button component={Link} href="/posts" onClick={toggleDrawer(false)} className={`${currentUrl === '/posts' ? styles.active : ''}`}>
+        <ListItemIcon>
+          <PostIcon />
+        </ListItemIcon>
         <ListItemText primary="Posts" />
       </ListItem>
       <ListItem button component={Link} href="/comments" onClick={toggleDrawer(false)} className={`${currentUrl === '/comments' ? styles.active : ''}`}>
+        <ListItemIcon>
+          <CommentIcon />
+        </ListItemIcon>
         <ListItemText primary="Comments" />
       </ListItem>
       <ListItem button component={Link} href="/users" onClick={toggleDrawer(false)} className={`${currentUrl === '/users' ? styles.active : ''}`}>
+        <ListItemIcon>
+          <UsersIcon />
+        </ListItemIcon>
         <ListItemText primary="Users" />
       </ListItem>
     </List>
@@ -52,7 +67,7 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-        {drawerList}
+        <div className={styles.drawerBackground}>{drawerList}</div>
       </Drawer>
     </div>
   );
