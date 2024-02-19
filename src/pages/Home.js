@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Chart as ChartJS, Tooltip, Legend, LinearScale } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, Tooltip, Legend, LinearScale, PointElement, CategoryScale, BarElement, LineElement } from 'chart.js';
+import { Bar, Line } from 'react-chartjs-2';
 import Navbar from './Navbar';
 import Toggle from 'react-toggle';
 import { Button } from '@mui/material';
-import { CategoryScale, BarElement } from 'chart.js';
 import { useRouter } from 'next/router';
 
 import 'react-toggle/style.css';
@@ -15,7 +14,9 @@ ChartJS.register(
   Tooltip,
   Legend,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  LineElement,
+  PointElement
 );
 
 const Home = () => {
@@ -42,15 +43,17 @@ const Home = () => {
 
         const users = usersResponse.data;
         const todos = todosResponse.data;
+        const posts = postsResponse.data;
 
         const todosPerUser = users.map(user => {
           const userTodos = todos.filter(todo => todo.userId === user.id);
-          return { userId: user.id, name: user.name, todos: userTodos.length, todosData: userTodos };
+          const userPostsCount = posts.filter(post => post.userId === user.id).length;
+          return { userId: user.id, name: user.name, todos: userTodos.length, todosData: userTodos, postsCount: userPostsCount };
         });
 
         setData({
           users: users.length,
-          posts: postsResponse.data.length,
+          posts: posts.length,
           comments: commentsResponse.data.length,
           todos: todos.length,
           todosPerUser,
@@ -71,6 +74,14 @@ const Home = () => {
       localStorage.setItem('darkMode', newDarkMode);
     }
   };
+
+  const Widget = ({ title, value, icon, color }) => (
+    <div style={{ width: '24%', padding: '10px', backgroundColor: color, borderRadius: '8px' }}>
+      <div style={{ fontSize: '24px', marginBottom: '8px', color: 'white' }}>{icon}</div>
+      <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'white' }}>{title}</div>
+      <div style={{ fontSize: '14px', marginTop: '4px', color: 'white' }}>{value}</div>
+    </div>
+  );
 
   const chartData = {
     labels: ['Users', 'Posts', 'Comments', 'Todos'],
@@ -140,6 +151,36 @@ const Home = () => {
     },
   };
 
+  const userPostsChartData = {
+    labels: data.todosPerUser.map(user => user.name),
+    datasets: [
+      {
+        label: 'Total Posts per User',
+        data: data.todosPerUser.map(user => user.postsCount),
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const userPostsChartOptions = {
+    scales: {
+      x: {
+        type: 'category',
+        ticks: {
+          color: darkMode ? 'white' : 'black',
+        },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          color: darkMode ? 'white' : 'black',
+        },
+      },
+    },
+  };
+
   const navigateToTotalTodosPage = () => {
     router.push('/TotalTodosPage');
   };
@@ -150,12 +191,21 @@ const Home = () => {
       <h1 style={{ textAlign: 'Left', color: darkMode ? 'white' : 'black', marginTop: '20px' }}>
         Dashboard
       </h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <Widget title="Total Users" value={data.users} icon="👥" color={darkMode ? 'rgba(255, 99, 132, 0.6)' : 'rgba(255, 99, 132, 0.3)'} />
+        <Widget title="Total Posts" value={data.posts} icon="📝" color={darkMode ? 'rgba(54, 162, 235, 0.6)' : 'rgba(54, 162, 235, 0.3)'} />
+        <Widget title="Total Comments" value={data.comments} icon="💬" color={darkMode ? 'rgba(255, 206, 86, 0.6)' : 'rgba(255, 206, 86, 0.3)'} />
+        <Widget title="Total Todos" value={data.todos} icon="✅" color={darkMode ? 'rgba(75, 192, 192, 0.6)' : 'rgba(75, 192, 192, 0.3)'} />
+      </div>
       <div style={{ flex: 1, marginBottom: '20px', display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ width: '48%', marginRight: '2%' }}>
+        <div style={{ width: '32%', marginRight: '2%' }}>
           <Bar data={chartData} options={chartOptions} />
         </div>
-        <div style={{ width: '48%', marginLeft: '2%' }}>
+        <div style={{ width: '32%', marginLeft: '2%' }}>
           <Bar data={userTodosChartData} options={userTodosChartOptions} />
+        </div>
+        <div style={{ width: '32%', marginLeft: '2%' }}>
+          <Line data={userPostsChartData} options={userPostsChartOptions} />
         </div>
       </div>
       <div style={{ textAlign: 'center', marginBottom: '20px' }}>
