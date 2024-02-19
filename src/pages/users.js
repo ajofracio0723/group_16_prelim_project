@@ -121,12 +121,12 @@ const Users = () => {
           </ul>
         </Modal.Body>
         <Modal.Footer style={{ backgroundColor: darkMode ? '#333' : 'white', borderTop: `1px solid ${darkMode ? '#555' : '#ddd'}` }}>
-          <Button variant="success" onClick={handleCloseModal} style={{ borderColor: '#0F6BAE', color: darkMode ? '#ffffff' : 'black' }}>
-            Close
-          </Button>
+        <Button variant="primary" onClick={handleCloseModal} style={{ borderColor: '#007BFF', color: 'white' }}>
+          Close
+        </Button>
         </Modal.Footer>
-      </Modal>
-    </div>
+            </Modal>
+          </div>
   );
 };
 

@@ -151,17 +151,16 @@ const Posts = () => {
                   </tbody>
                 </table>
                 <div style={{ borderTop: `1px solid ${darkMode ? '#555' : '#ddd'}`, marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
-                  <Button
-                    onClick={handleCloseDialog}
-                    color="primary"
-                    variant="contained"
-                    style={{
-                      backgroundColor: darkMode ? '#0F6BAE' : 'green',
-                      color: darkMode ? '#ffffff' : darkMode ? '#0F6BAE' : 'black',
-                    }}
-                  >
-                    Close
-                  </Button>
+                <Button
+                  onClick={handleCloseDialog}
+                  variant="contained"
+                  style={{
+                    backgroundColor: darkMode ? '#0F6BAE' : '#007BFF', // Use the primary color or your preferred shade of blue
+                    color: 'white', // Set text color to white
+                  }}
+                >
+                  Close
+                </Button>
                 </div>
               </div>
             </Fade>

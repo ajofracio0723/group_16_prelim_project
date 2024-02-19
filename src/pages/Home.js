@@ -78,13 +78,47 @@ const Home = () => {
     localStorage.setItem('darkMode', newDarkMode.toString());
   };
 
-  const Widget = ({ title, value, icon, color }) => (
-    <div style={{ width: '24%', padding: '10px', backgroundColor: color, borderRadius: '8px', color: 'white' }}>
-      <div style={{ fontSize: '24px', marginBottom: '8px' }}>{icon}</div>
-      <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{title}</div>
-      <div style={{ fontSize: '14px', marginTop: '4px' }}>{value}</div>
-    </div>
-  );
+  const Widget = ({ title, value, icon, color }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+      <div
+        style={{
+          width: '24%',
+          padding: '10px',
+          backgroundColor: color,
+          borderRadius: '8px',
+          color: 'white',
+          transition: 'transform 0.3s',
+          transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div style={{ fontSize: '24px', marginBottom: '8px' }}>{icon}</div>
+        <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{title}</div>
+        <div style={{ fontSize: '14px', marginTop: '4px' }}>{value}</div>
+      </div>
+    );
+  };
+
+  const ChartWrapper = ({ children, style }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+      <div
+        style={{
+          ...style,
+          transition: 'border-color 0.3s',
+          borderColor: isHovered ? 'orange' : (style.borderColor || 'initial'),
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {children}
+      </div>
+    );
+  };
 
   const chartData = {
     labels: ['Users', 'Posts', 'Comments', 'Todos'],
@@ -201,26 +235,21 @@ const Home = () => {
         <Widget title="Total Todos" value={data.todos} icon="✅" color={darkMode ? 'rgba(150, 0, 255, 0.8)' : 'rgba(150, 0, 255, 0.5)'} />
       </div>
       <div style={{ flex: 1, marginBottom: '20px', display: 'flex', justifyContent: 'space-between', marginLeft: '20px', marginRight: '20px' }}>
-        <div style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
+        <ChartWrapper style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
           <Bar data={chartData} options={chartOptions} />
-        </div>
-        <div style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
+        </ChartWrapper>
+        <ChartWrapper style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
           <Bar data={userTodosChartData} options={userTodosChartOptions} />
-        </div>
-        <div style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
+        </ChartWrapper>
+        <ChartWrapper style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
           <Line data={userPostsChartData} options={userPostsChartOptions} />
-        </div>
+        </ChartWrapper>
       </div>
       <div style={{ textAlign: 'center', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}>
         <Button onClick={navigateToTotalTodosPage} variant="contained" color="primary" sx={{ minWidth: '200px' }}>
           View Total Todos
         </Button>
       </div>
-      <label>
-        <Toggle checked={darkMode} onChange={toggleDarkMode} />
-        {' '}
-        Dark Mode
-      </label>
     </div>
   );
 };
