@@ -157,7 +157,7 @@ const Posts = () => {
                     variant="contained"
                     style={{
                       backgroundColor: darkMode ? '#0F6BAE' : 'green',
-                      color: darkMode ? '#ffffff' : '#0F6BAE',
+                      color: darkMode ? '#ffffff' : darkMode ? '#0F6BAE' : 'black',
                     }}
                   >
                     Close
