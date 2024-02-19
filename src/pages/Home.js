@@ -6,7 +6,6 @@ import Navbar from './Navbar';
 import Toggle from 'react-toggle';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
-
 import 'react-toggle/style.css';
 
 ChartJS.register(
@@ -30,6 +29,13 @@ const Home = () => {
 
   const [darkMode, setDarkMode] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode !== null) {
+      setDarkMode(savedDarkMode === 'true');
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,17 +75,14 @@ const Home = () => {
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('darkMode', newDarkMode);
-    }
+    localStorage.setItem('darkMode', newDarkMode.toString());
   };
 
   const Widget = ({ title, value, icon, color }) => (
-    <div style={{ width: '24%', padding: '10px', backgroundColor: color, borderRadius: '8px' }}>
-      <div style={{ fontSize: '24px', marginBottom: '8px', color: 'white' }}>{icon}</div>
-      <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'white' }}>{title}</div>
-      <div style={{ fontSize: '14px', marginTop: '4px', color: 'white' }}>{value}</div>
+    <div style={{ width: '24%', padding: '10px', backgroundColor: color, borderRadius: '8px', color: 'white' }}>
+      <div style={{ fontSize: '24px', marginBottom: '8px' }}>{icon}</div>
+      <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{title}</div>
+      <div style={{ fontSize: '14px', marginTop: '4px' }}>{value}</div>
     </div>
   );
 
@@ -89,8 +92,8 @@ const Home = () => {
       {
         label: 'Data',
         data: [data.users, data.posts, data.comments, data.todos],
-        backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)'],
-        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
+        backgroundColor: ['rgba(0, 100, 255, 0.6)', 'rgba(0, 200, 100, 0.6)', 'rgba(255, 150, 0, 0.6)', 'rgba(150, 0, 255, 0.6)'],
+        borderColor: ['rgba(0, 100, 255, 1)', 'rgba(0, 200, 100, 1)', 'rgba(255, 150, 0, 1)', 'rgba(150, 0, 255, 1)'],
         borderWidth: 1,
       },
     ],
@@ -186,29 +189,29 @@ const Home = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: darkMode ? 'black' : 'white' }}>
-      <Navbar />
-      <h1 style={{ textAlign: 'Left', color: darkMode ? 'white' : 'black', marginTop: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: darkMode ? 'black' : 'white', color: darkMode ? 'white' : 'black' }}>
+      <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <h1 style={{ textAlign: 'Left', marginTop: '20px', marginLeft: '20px' }}>
         Dashboard
       </h1>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <Widget title="Total Users" value={data.users} icon="👥" color={darkMode ? 'rgba(255, 99, 132, 0.6)' : 'rgba(255, 99, 132, 0.3)'} />
-        <Widget title="Total Posts" value={data.posts} icon="📝" color={darkMode ? 'rgba(54, 162, 235, 0.6)' : 'rgba(54, 162, 235, 0.3)'} />
-        <Widget title="Total Comments" value={data.comments} icon="💬" color={darkMode ? 'rgba(255, 206, 86, 0.6)' : 'rgba(255, 206, 86, 0.3)'} />
-        <Widget title="Total Todos" value={data.todos} icon="✅" color={darkMode ? 'rgba(75, 192, 192, 0.6)' : 'rgba(75, 192, 192, 0.3)'} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}>
+        <Widget title="Total Users" value={data.users} icon="👥" color={darkMode ? 'rgba(0, 100, 255, 0.8)' : 'rgba(0, 100, 255, 0.5)'} />
+        <Widget title="Total Posts" value={data.posts} icon="📝" color={darkMode ? 'rgba(0, 200, 100, 0.8)' : 'rgba(0, 200, 100, 0.5)'} />
+        <Widget title="Total Comments" value={data.comments} icon="💬" color={darkMode ? 'rgba(255, 150, 0, 0.8)' : 'rgba(255, 150, 0, 0.5)'} />
+        <Widget title="Total Todos" value={data.todos} icon="✅" color={darkMode ? 'rgba(150, 0, 255, 0.8)' : 'rgba(150, 0, 255, 0.5)'} />
       </div>
-      <div style={{ flex: 1, marginBottom: '20px', display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ width: '32%', marginRight: '2%' }}>
+      <div style={{ flex: 1, marginBottom: '20px', display: 'flex', justifyContent: 'space-between', marginLeft: '20px', marginRight: '20px' }}>
+        <div style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
           <Bar data={chartData} options={chartOptions} />
         </div>
-        <div style={{ width: '32%', marginLeft: '2%' }}>
+        <div style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
           <Bar data={userTodosChartData} options={userTodosChartOptions} />
         </div>
-        <div style={{ width: '32%', marginLeft: '2%' }}>
+        <div style={{ width: '32%', border: '2px solid', borderColor: darkMode ? 'white' : 'black', borderRadius: '8px', margin: '0 0 20px 0' }}>
           <Line data={userPostsChartData} options={userPostsChartOptions} />
         </div>
       </div>
-      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}>
         <Button onClick={navigateToTotalTodosPage} variant="contained" color="primary" sx={{ minWidth: '200px' }}>
           View Total Todos
         </Button>

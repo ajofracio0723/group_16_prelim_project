@@ -23,6 +23,20 @@ const Posts = () => {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [comments, setComments] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode !== null) {
+      setDarkMode(savedDarkMode === 'true');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    localStorage.setItem('darkMode', newDarkMode.toString());
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -67,31 +81,31 @@ const Posts = () => {
 
   return (
     <div>
-      <Navbar />
-      <div style={{ minHeight: '100vh', padding: '20px' }}>
+      <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <div style={{ minHeight: '100vh', padding: '20px', backgroundColor: darkMode ? 'black' : 'white', color: darkMode ? 'white' : '#333' }}>
         {loading && <CircularProgress style={{ margin: '10px' }} />}
         {error && <Typography variant="h6" color="error">{error}</Typography>}
         {!loading && !error && (
           <div>
-            <Typography variant="h4" component="div" style={{ marginBottom: '20px', color: '#333' }}>
+            <Typography variant="h4" component="div" style={{ marginBottom: '20px', color: darkMode ? 'white' : '#333' }}>
               Posts
             </Typography>
             <Grid container spacing={2}>
               {posts.map((post) => (
                 <Grid item key={post.id} xs={12} sm={6} md={4} lg={3}>
-                  <Card style={{ height: '100%', border: '2px solid #0F6BAE' }}>
+                  <Card style={{ height: '100%', border: `2px solid ${darkMode ? 'white' : '#0F6BAE'}`, backgroundColor: darkMode ? 'black' : 'transparent' }}>
                     <CardContent style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                       <Avatar src={`https://i.pravatar.cc/40?u=${post.id}`} alt="Avatar" style={{ marginRight: '10px' }} />
-                      <Typography variant="h6" component="div">
+                      <Typography variant="h6" component="div" style={{ color: darkMode ? 'white' : '#333' }}>
                         {post.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <Typography variant="body2" color="text.secondary" style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', color: darkMode ? 'white' : '#333' }}>
                         {post.body}
-                      </Typography> 
+                      </Typography>
                       <Button
                         onClick={() => handleToggleComments(post.id)}
                         variant="outlined"
-                        style={{ marginTop: '10px' }}
+                        style={{ marginTop: '10px', borderColor: darkMode ? 'white' : '#0F6BAE', color: darkMode ? 'white' : '#0F6BAE' }}
                         startIcon={<CommentIcon />}
                       >
                         View Comments
@@ -105,18 +119,26 @@ const Posts = () => {
         )}
 
         {isDialogOpen && (
-          <Dialog open={isDialogOpen} onClose={handleCloseDialog} fullWidth maxWidth="md">
-            <DialogTitle>Comments</DialogTitle>
-            <DialogContent>
+          <Dialog open={isDialogOpen} onClose={handleCloseDialog} fullWidth maxWidth="md" style={{ backgroundColor: darkMode ? '#333' : 'white', color: darkMode ? 'white' : '#333' }}>
+            <DialogTitle style={{ color: darkMode ? 'white' : '#0F6BAE', borderBottom: `1px solid ${darkMode ? 'white' : '#0F6BAE'}` }}>Comments</DialogTitle>
+            <DialogContent style={{ color: darkMode ? 'white' : '#333', paddingTop: '20px' }}>
               {comments.map((comment, index) => (
-                <div key={comment.id} style={{ borderBottom: '2px solid #83B8FF', marginBottom: '10px', paddingBottom: '10px', backgroundColor: index % 2 === 0 ? '#F0F0F0' : 'transparent' }}>
-                  <Typography variant="subtitle2">{comment.name}</Typography>
-                  <Typography variant="body1" style={{ marginTop: '5px' }}>{comment.body}</Typography>
+                <div key={comment.id} style={{ borderBottom: `1px solid ${darkMode ? 'white' : '#0F6BAE'}`, marginBottom: '20px', paddingBottom: '20px', backgroundColor: index % 2 === 0 ? (darkMode ? '#202020' : '#F0F0F0') : 'transparent' }}>
+                  <Typography variant="subtitle2" style={{ color: darkMode ? '#83B8FF' : 'inherit' }}>{comment.name}</Typography>
+                  <Typography variant="body1" style={{ marginTop: '5px', color: darkMode ? 'white' : '#333' }}>{comment.body}</Typography>
                 </div>
               ))}
             </DialogContent>
-            <DialogActions style={{ justifyContent: 'center' }}>
-              <Button onClick={handleCloseDialog} color="primary" variant="contained">
+            <DialogActions style={{ justifyContent: 'center', borderTop: `1px solid ${darkMode ? 'white' : '#0F6BAE'}`, paddingBottom: '20px' }}>
+              <Button
+                onClick={handleCloseDialog}
+                color="primary"
+                variant="contained"
+                style={{
+                  backgroundColor: darkMode ? '#0F6BAE' : 'green', // Set the desired color
+                  color: darkMode ? 'white' : '#0F6BAE',
+                }}
+              >
                 Close
               </Button>
             </DialogActions>

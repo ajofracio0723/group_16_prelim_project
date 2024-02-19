@@ -9,7 +9,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import UsersIcon from '@mui/icons-material/People';
 import styles from './component/Navbar.module.css';
 
-const Navbar = () => {
+const Navbar = ({ darkMode, toggleDarkMode }) => {
   const router = useRouter();
   const [currentUrl, setCurrentUrl] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -64,6 +64,9 @@ const Navbar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Prelim Project
           </Typography>
+          <Button color="inherit" onClick={toggleDarkMode}>
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
