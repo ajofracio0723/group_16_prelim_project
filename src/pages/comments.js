@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
-import Toggle from 'react-toggle';
 import {
   Table,
   TableHead,
@@ -13,12 +12,10 @@ import {
   createTheme,
   ThemeProvider,
 } from '@mui/material';
-import 'react-toggle/style.css'; // Import the default styles for react-toggle
 
 const Comments = () => {
-  const storedDarkMode = typeof window !== 'undefined' && localStorage.getItem('darkMode') === 'true';
-  const [darkMode, setDarkMode] = useState(storedDarkMode);
   const [comments, setComments] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -33,13 +30,24 @@ const Comments = () => {
     fetchComments();
   }, []);
 
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-
+  useEffect(() => {
+    // Check if running on the client side
     if (typeof window !== 'undefined') {
-      localStorage.setItem('darkMode', newDarkMode);
+      // Retrieve dark mode state from localStorage, default to 'false' if not present
+      const savedDarkMode = localStorage.getItem('darkMode');
+      setDarkMode(savedDarkMode === 'true');
     }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prevDarkMode) => {
+      // Check if running on the client side
+      if (typeof window !== 'undefined') {
+        // Save dark mode state to localStorage
+        localStorage.setItem('darkMode', String(!prevDarkMode));
+      }
+      return !prevDarkMode;
+    });
   };
 
   const theme = createTheme({
@@ -51,16 +59,9 @@ const Comments = () => {
   return (
     <div>
       <CssBaseline />
-      <Navbar />
+      <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <ThemeProvider theme={theme}>
-        <div style={{ background: darkMode ? '#333' : '#fff', color: darkMode ? '#fff' : '#333' }}>
-          <div>
-            <label>
-              <Toggle checked={darkMode} onChange={toggleDarkMode} />
-              {' '}
-              Dark Mode
-            </label>
-          </div>
+      <div style={{ backgroundColor: darkMode ? '#303030' : 'white', color: darkMode ? 'white' : 'black' }}>
           <h1>ALL COMMENTS</h1>
           <div>
             <Paper>
