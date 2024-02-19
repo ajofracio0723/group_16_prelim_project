@@ -7,7 +7,10 @@ import HomeIcon from '@mui/icons-material/Home';
 import PostIcon from '@mui/icons-material/Assignment';
 import CommentIcon from '@mui/icons-material/Comment';
 import UsersIcon from '@mui/icons-material/People';
+import dynamic from 'next/dynamic';
 import styles from './component/Navbar.module.css';
+
+const DarkModeToggle = dynamic(() => import('react-dark-mode-toggle'), { ssr: false });
 
 const Navbar = ({ darkMode, toggleDarkMode }) => {
   const router = useRouter();
@@ -64,9 +67,11 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Prelim Project
           </Typography>
-          <Button color="inherit" onClick={toggleDarkMode}>
-            {darkMode ? 'Light Mode' : 'Dark Mode'}
-          </Button>
+          <DarkModeToggle
+            onChange={toggleDarkMode}
+            checked={darkMode}
+            size={50}
+          />
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
