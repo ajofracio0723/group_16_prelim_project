@@ -8,10 +8,9 @@ import {
   Grid,
   CircularProgress,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
+  Modal,
+  Backdrop,
+  Fade,
   Avatar,
 } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
@@ -119,30 +118,54 @@ const Posts = () => {
         )}
 
         {isDialogOpen && (
-          <Dialog open={isDialogOpen} onClose={handleCloseDialog} fullWidth maxWidth="md" style={{ backgroundColor: darkMode ? '#333' : 'white', color: darkMode ? 'white' : '#333' }}>
-            <DialogTitle style={{ color: darkMode ? 'white' : '#0F6BAE', borderBottom: `1px solid ${darkMode ? 'white' : '#0F6BAE'}` }}>Comments</DialogTitle>
-            <DialogContent style={{ color: darkMode ? 'white' : '#333', paddingTop: '20px' }}>
-              {comments.map((comment, index) => (
-                <div key={comment.id} style={{ borderBottom: `1px solid ${darkMode ? 'white' : '#0F6BAE'}`, marginBottom: '20px', paddingBottom: '20px', backgroundColor: index % 2 === 0 ? (darkMode ? '#202020' : '#F0F0F0') : 'transparent' }}>
-                  <Typography variant="subtitle2" style={{ color: darkMode ? '#83B8FF' : 'inherit' }}>{comment.name}</Typography>
-                  <Typography variant="body1" style={{ marginTop: '5px', color: darkMode ? 'white' : '#333' }}>{comment.body}</Typography>
+          <Modal
+            open={isDialogOpen}
+            onClose={handleCloseDialog}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Fade in={isDialogOpen}>
+              <div style={{ backgroundColor: darkMode ? '#333' : 'white', padding: '20px', borderRadius: '8px', color: darkMode ? 'white' : '#333' }}>
+                <Typography variant="h6" id="modal-title" style={{ color: darkMode ? '#ffffff' : '#0F6BAE', marginBottom: '20px' }}>
+                  Comments
+                </Typography>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ borderBottom: `1px solid ${darkMode ? '#555' : '#ddd'}`, padding: '10px', textAlign: 'left' }}>Name</th>
+                      <th style={{ borderBottom: `1px solid ${darkMode ? '#555' : '#ddd'}`, padding: '10px', textAlign: 'left' }}>Comment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {comments.map((comment, index) => (
+                      <tr key={comment.id} style={{ borderBottom: `1px solid ${darkMode ? '#555' : '#ddd'}`, backgroundColor: darkMode ? '#202020' : '#F0F0F0' }}>
+                        <td style={{ padding: '10px' }}>{comment.name}</td>
+                        <td style={{ padding: '10px' }}>{comment.body}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div style={{ borderTop: `1px solid ${darkMode ? '#555' : '#ddd'}`, marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+                  <Button
+                    onClick={handleCloseDialog}
+                    color="primary"
+                    variant="contained"
+                    style={{
+                      backgroundColor: darkMode ? '#0F6BAE' : 'green',
+                      color: darkMode ? '#ffffff' : '#0F6BAE',
+                    }}
+                  >
+                    Close
+                  </Button>
                 </div>
-              ))}
-            </DialogContent>
-            <DialogActions style={{ justifyContent: 'center', borderTop: `1px solid ${darkMode ? 'white' : '#0F6BAE'}`, paddingBottom: '20px' }}>
-              <Button
-                onClick={handleCloseDialog}
-                color="primary"
-                variant="contained"
-                style={{
-                  backgroundColor: darkMode ? '#0F6BAE' : 'green', // Set the desired color
-                  color: darkMode ? 'white' : '#0F6BAE',
-                }}
-              >
-                Close
-              </Button>
-            </DialogActions>
-          </Dialog>
+              </div>
+            </Fade>
+          </Modal>
         )}
       </div>
     </div>
